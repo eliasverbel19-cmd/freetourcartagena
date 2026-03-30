@@ -197,7 +197,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* ==========================================================================
+       6. Google Tag Event Tracking (Conversion triggers)
+       ========================================================================== */
+    const trackEvent = (eventName, label) => {
+        if (typeof gtag === 'function') {
+            gtag('event', eventName, {
+                'event_category': 'Engagement',
+                'event_label': label,
+                'transport_type': 'beacon'
+            });
+            console.log(`Event tracked: ${eventName} - ${label}`);
+        }
+    };
 
+    // Track Form Reservations
+    document.querySelectorAll('a[href*="docs.google.com/forms"]').forEach(link => {
+        link.addEventListener('click', () => {
+            trackEvent('generate_lead', 'Google Form Booking');
+        });
+    });
+
+    // Track WhatsApp Contacts
+    document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+        link.addEventListener('click', () => {
+            trackEvent('contact', 'WhatsApp Click');
+        });
+    });
 
 });
 
