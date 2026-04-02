@@ -1,311 +1,200 @@
 /**
- * Script Principal para Free Tour Cartagena
- * Lógica pura en JavaScript Vanilla (Sin librerías)
+ * script.js - Lógica del sitio Free Tour Cartagena
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    /* ==========================================================================
-       1. Menú Hamburguesa & Navegación Móvil
-       ========================================================================== */
-    const hamburger = document.getElementById('hamburger');
-    const navbar = document.getElementById('navbar');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    // Toggle menu
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navbar.classList.toggle('active');
-        
-        // Evitar scroll cuando está abierto el menú
-        document.body.style.overflow = navbar.classList.contains('active') ? 'hidden' : 'auto';
-    });
-
-    // Cerrar menú al clickear enlace
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navbar.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-    });
-
-    /* ==========================================================================
-       2. Cambiar estilo del Header al scrollear
-       ========================================================================== */
+    // --- Navbar Scroll Effect ---
     const header = document.getElementById('header');
-    
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
-            header.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
-            header.style.padding = '0.5rem 0'; // Compactar un poco
+            header.classList.add('scrolled');
         } else {
-            header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
-            header.style.padding = '1rem 0';
+            header.classList.remove('scrolled');
         }
     });
 
-    /* ==========================================================================
-       3. Carrusel de Testimonios
-       ========================================================================== */
-    const sliderContainer = document.getElementById('testimonial-slider');
+    // --- Hamburger Menu ---
+    const hamburger = document.getElementById('hamburger');
+    const navbar = document.getElementById('navbar');
+    if (hamburger && navbar) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navbar.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navbar.classList.remove('active');
+            });
+        });
+    }
+
+    // --- Testimonials Slider ---
+    const slider = document.getElementById('testimonial-slider');
     const slides = document.querySelectorAll('.testimonial-slide');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const dotsContainer = document.getElementById('slider-dots');
-    
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    let autoPlayInterval;
 
-    // Crear puntos indicadores (dots)
-    slides.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (index === 0) dot.classList.add('active');
-        dot.dataset.index = index;
-        dotsContainer.appendChild(dot);
-        
-        dot.addEventListener('click', () => {
-            goToSlide(index);
+    if (slider && slides.length > 0) {
+        let currentSlide = 0;
+
+        // Create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
         });
-    });
-    
-    const dots = document.querySelectorAll('.dot');
 
-    function updateSlider() {
-        // Mover contenedor (-100% por slide)
-        sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlider() {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active');
+            });
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            updateSlider();
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+        });
+
+        // Auto-play
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        }, 8000);
+    }
+
+    // --- Tour Details Modal ---
+    const detailsModal = document.getElementById('details-modal');
+    const detailsTitle = document.getElementById('details-title');
+    const detailsBody = document.getElementById('details-body');
+
+    window.openTourDetails = (button, title) => {
+        const card = button.closest('.tour-card');
+        const contentHTML = card.querySelector('.tour-more-details').innerHTML;
+        const mainImgSrc = card.querySelector('.tour-card-img img').src;
+        const modalImgListAttr = card.querySelector('.tour-card-img img').getAttribute('data-modal-img');
         
-        // Actualizar dots
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[currentSlide].classList.add('active');
+        // Unificar imágenes y eliminar duplicados
+        let allImages = [mainImgSrc];
+        if (modalImgListAttr) {
+            const additionalImgs = modalImgListAttr.split(',').map(s => s.trim());
+            allImages = [...allImages, ...additionalImgs];
+        }
+        
+        // Limpiamos URLs (por si acaso vienen con rutas relativas o absolutas mezcladas)
+        const uniqueImages = [...new Set(allImages.map(src => {
+            // Si es relativa la convertimos en algo comparable (o simplemente confiamos en el string si es consistente)
+            return src;
+        }))];
+
+        // Determinar idioma para el CTA
+        const isEnglish = window.location.pathname.includes('en');
+        const ctaText = isEnglish ? 'BOOK NOW' : 'RESERVAR AHORA';
+
+        // Construir estructura del Modal
+        let thumbsHTML = '';
+        if (uniqueImages.length > 1) {
+            thumbsHTML = `<div class="modal-details-thumbs">
+                ${uniqueImages.map((img, i) => `<img src="${img}" class="${i === 0 ? 'active' : ''}" onclick="changeModalMainImage(this)">`).join('')}
+            </div>`;
+        }
+
+        const modalHTML = `
+            <div class="modal-details-grid">
+                <div class="modal-details-image-side">
+                    <img src="${uniqueImages[0]}" class="modal-details-main-img" id="modal-main-img" alt="${title}">
+                    ${thumbsHTML}
+                    <div class="modal-details-cta-wrapper" style="margin-top: 2rem; display: flex; justify-content: center;">
+                        <a href="https://forms.gle/qF7ktyChunCXRwVp8" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="text-decoration:none; display:inline-block; text-align:center; width: 100%; padding: 1.2rem; font-size: 1.2rem;">
+                            ${ctaText}
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-details-content-side">
+                    <div class="modal-text" style="text-align: justify;">
+                        ${contentHTML}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        detailsTitle.innerHTML = title;
+        detailsBody.innerHTML = modalHTML;
+        detailsModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; 
+    };
+
+    window.changeModalMainImage = (thumb) => {
+        const mainImg = document.getElementById('modal-main-img');
+        const allThumbs = thumb.parentElement.querySelectorAll('img');
+        
+        mainImg.src = thumb.src;
+        allThumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    };
+
+    window.closeDetailsModal = () => {
+        detailsModal.classList.remove('active');
+        document.body.style.overflow = ''; 
+    };
+
+    if (detailsModal) {
+        detailsModal.addEventListener('click', (e) => {
+            if (e.target === detailsModal) closeDetailsModal();
+        });
     }
 
-    function goToNextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateSlider();
-        resetAutoPlay();
-    }
-
-    function goToPrevSlide() {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateSlider();
-        resetAutoPlay();
-    }
-
-    function goToSlide(index) {
-        currentSlide = index;
-        updateSlider();
-        resetAutoPlay();
-    }
-
-    // Eventos botones Prev/Next
-    nextBtn.addEventListener('click', goToNextSlide);
-    prevBtn.addEventListener('click', goToPrevSlide);
-
-    // Auto Play
-    function startAutoPlay() {
-        autoPlayInterval = setInterval(goToNextSlide, 5000); // 5 segundos
-    }
-
-    function resetAutoPlay() {
-        clearInterval(autoPlayInterval);
-        startAutoPlay();
-    }
-
-    startAutoPlay(); // Iniciar autoplay
-
-    /* ==========================================================================
-       4. Carrusel de Contacto (Autoplay)
-       ========================================================================== */
-    const contactSliderScroll = document.getElementById('contact-carousel');
+    // --- Contact Carousel ---
+    const contactCarousel = document.getElementById('contact-carousel');
     const contactSlides = document.querySelectorAll('.contact-slide');
     const contactDotsContainer = document.getElementById('contact-slider-dots');
 
-    if (contactSliderScroll && contactSlides.length > 0) {
+    if (contactCarousel && contactSlides.length > 0) {
         let currentContactSlide = 0;
-        const totalContactSlides = contactSlides.length;
 
-        // Crear puntos indicadores (dots)
-        if (contactDotsContainer) {
-            contactSlides.forEach((_, index) => {
-                const dot = document.createElement('div');
-                dot.classList.add('contact-dot');
-                if (index === 0) dot.classList.add('active');
-                dot.dataset.index = index;
-                contactDotsContainer.appendChild(dot);
+        contactSlides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                currentContactSlide = i;
+                updateContactCarousel();
+            });
+            contactDotsContainer.appendChild(dot);
+        });
 
-                dot.addEventListener('click', () => {
-                    currentContactSlide = index;
-                    updateContactSlider();
-                });
+        const contactDots = contactDotsContainer.querySelectorAll('.dot');
+
+        function updateContactCarousel() {
+            contactCarousel.style.transform = `translateX(-${currentContactSlide * 100}%)`;
+            contactDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentContactSlide);
             });
         }
 
-        const contactDots = document.querySelectorAll('.contact-dot');
-
-        function updateContactSlider() {
-            contactSliderScroll.style.transform = `translateX(-${currentContactSlide * 100}%)`;
-            if (contactDots.length > 0) {
-                contactDots.forEach(dot => dot.classList.remove('active'));
-                if (contactDots[currentContactSlide]) {
-                    contactDots[currentContactSlide].classList.add('active');
-                }
-            }
-        }
-
-        function nextContactSlide() {
-            currentContactSlide = (currentContactSlide + 1) % totalContactSlides;
-            updateContactSlider();
-        }
-
-        setInterval(nextContactSlide, 4000); // 4 segundos
-    }
-
-    /* ==========================================================================
-       5. Formulario de Contacto (Simulación - Solo si existe)
-       ========================================================================== */
-    const contactForm = document.getElementById('contact-form');
-    const contactSuccess = document.getElementById('contact-success');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Evitar recarga
-            
-            // Simular envío de datos
-            const btn = contactForm.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = 'Enviando...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                if (contactSuccess) {
-                    contactSuccess.classList.remove('hidden');
-                }
-                contactForm.reset();
-                btn.textContent = originalText;
-                btn.disabled = false;
-                
-                // Ocultar mensaje después de unos segundos
-                setTimeout(() => {
-                    if (contactSuccess) {
-                        contactSuccess.classList.add('hidden');
-                    }
-                }, 4000);
-            }, 1500);
-        });
-    }
-
-    /* ==========================================================================
-       6. Google Tag Event Tracking (Conversion triggers)
-       ========================================================================== */
-    const trackEvent = (eventName, label) => {
-        if (typeof gtag === 'function') {
-            gtag('event', eventName, {
-                'event_category': 'Engagement',
-                'event_label': label,
-                'transport_type': 'beacon'
-            });
-            console.log(`Event tracked: ${eventName} - ${label}`);
-        }
-    };
-
-    // Track Form Reservations
-    document.querySelectorAll('a[href*="docs.google.com/forms"]').forEach(link => {
-        link.addEventListener('click', () => {
-            trackEvent('generate_lead', 'Google Form Booking');
-        });
-    });
-
-    // Track WhatsApp Contacts
-    document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
-        link.addEventListener('click', () => {
-            trackEvent('contact', 'WhatsApp Click');
-        });
-    });
-
-});
-
-// Función para abrir el Modal de Detalles a pantalla completa
-window.openTourDetails = function(btn, title) {
-    const card = btn.closest('.tour-card');
-    const cardContent = btn.closest('.tour-card-content');
-    const imgElement = card.querySelector('.tour-card-img img');
-    
-    // Tomar la estructura HTML de detalles oculta dentro de la tarjeta
-    const detailsHtml = cardContent.querySelector('.tour-more-details').innerHTML;
-    
-    const modalImgData = imgElement.dataset.modalImg || imgElement.src;
-    const images = modalImgData.split(',');
-    
-    let imagesHtml = '';
-    if (images.length > 1) {
-        imagesHtml = `
-            <div class="modal-carousel" id="modal-carousel" data-current="0">
-                <div class="modal-carousel-inner" id="modal-carousel-inner">
-                    ${images.map(img => `<img src="${img.trim()}" alt="${imgElement.alt}">`).join('')}
-                </div>
-                <button class="modal-carousel-btn prev" onclick="moveModalCarousel(-1)">❮</button>
-                <button class="modal-carousel-btn next" onclick="moveModalCarousel(1)">❯</button>
-            </div>
-        `;
-    } else {
-        imagesHtml = `<img src="${images[0].trim()}" alt="${imgElement.alt}">`;
-    }
-
-    // Extraer el botón de reserva real de la tarjeta para mantener el enlace correcto
-    const btnReservaOriginal = cardContent.querySelector('.btn-primary');
-    const hrefReserva = btnReservaOriginal ? btnReservaOriginal.getAttribute('href') : '#';
-    const textoReserva = btnReservaOriginal ? btnReservaOriginal.textContent : 'Reservar';
-
-    // Construir nuevo interior del modal con la imagen y el botón de reserva en su columna
-    const enhancedHtml = `
-        <div class="modal-layout">
-            <div class="modal-text">
-                ${detailsHtml}
-            </div>
-            <div class="modal-image-col">
-                <div class="modal-image">
-                    ${imagesHtml}
-                </div>
-                <a href="${hrefReserva}" target="_blank" rel="noopener noreferrer" class="btn btn-primary modal-booking-btn">
-                    ${textoReserva}
-                </a>
-            </div>
-        </div>
-    `;
-    
-    // Inyectarlo en el modal
-    document.getElementById('details-title').innerHTML = title;
-    document.getElementById('details-body').innerHTML = enhancedHtml;
-    
-    // Mostrar modal
-    document.getElementById('details-modal').classList.add('active');
-    document.body.style.overflow = 'hidden'; // Previene scroll del fondo
-};
-
-window.closeDetailsModal = function() {
-    document.getElementById('details-modal').classList.remove('active');
-    document.body.style.overflow = '';
-};
-
-document.getElementById('details-modal').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('details-modal') || e.target.classList.contains('modal-overlay')) {
-        closeDetailsModal();
+        setInterval(() => {
+            currentContactSlide = (currentContactSlide + 1) % contactSlides.length;
+            updateContactCarousel();
+        }, 5000);
     }
 });
-
-window.moveModalCarousel = function(direction) {
-    const carousel = document.getElementById('modal-carousel');
-    const inner = document.getElementById('modal-carousel-inner');
-    if (!carousel || !inner) return;
-    
-    const totalSlides = inner.children.length;
-    let current = parseInt(carousel.dataset.current, 10);
-    
-    current = (current + direction + totalSlides) % totalSlides;
-    carousel.dataset.current = current;
-    
-    inner.style.transform = `translateX(-${current * 100}%)`;
-};

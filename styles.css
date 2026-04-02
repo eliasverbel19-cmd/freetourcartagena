@@ -610,7 +610,7 @@ img {
 }
 
 .info-item .icon {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   background-color: var(--light-color);
   width: 50px;
   height: 50px;
@@ -618,6 +618,7 @@ img {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .info-item h4 {
@@ -827,7 +828,7 @@ img {
 .modal-container {
   background-color: var(--white);
   width: 90%;
-  max-width: 800px;
+  max-width: 1200px;
   border-radius: var(--border-radius-lg);
   padding: 2.5rem;
   position: relative;
@@ -1392,4 +1393,309 @@ img {
     gap: 0.5rem;
   }
 }
+.umbrella-ribbon {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('images/SANTA TERESA 2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--white);
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+  border-top: 5px solid rgba(255, 255, 255, 0.3);
+}
 
+.umbrella-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.umbrella-flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  width: 100%;
+}
+
+.umbrella-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.umbrella-image-cta {
+  width: 310px;
+  height: 310px;
+  border-radius: 25px;
+  object-fit: cover;
+  object-position: bottom;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  border: 8px solid var(--white);
+  transition: transform 0.3s ease;
+}
+
+.umbrella-image-cta:hover {
+  transform: rotate(3deg) scale(1.05);
+}
+
+.umbrella-title {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  color: var(--white);
+  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  white-space: nowrap; /* Force single line on desktop */
+}
+
+@media (max-width: 768px) {
+  .umbrella-title {
+    white-space: normal; /* Allow wrap on mobile */
+    font-size: 1.8rem;
+  }
+}
+
+.umbrella-text {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-weight: 300;
+  max-width: 500px;
+  margin-bottom: 0;
+  color: var(--white);
+  text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 768px) {
+  .umbrella-ribbon {
+    background-position: 20% center; /* Shift focus slightly more to the right */
+  }
+  .umbrella-flex-row {
+    flex-direction: column-reverse;
+    gap: 3rem;
+  }
+  .umbrella-image-cta {
+    width: 250px;
+    height: 250px;
+  }
+  .exclusivity-highlight {
+    display: block; /* Force new line on mobile */
+    margin-top: 0.8rem; /* Space from the preceding text */
+  }
+}
+/* =========================================================================
+   Booking Form Specific Styles
+   ========================================================================= */
+.booking-form {
+    margin-top: 1.5rem;
+}
+
+.booking-form .form-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.booking-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--dark-color);
+}
+
+.booking-form input,
+.booking-form select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.booking-form input:focus,
+.booking-form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1.5rem 0;
+    cursor: pointer;
+}
+
+.form-checkbox input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 1.1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+.booking-status {
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.booking-status.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.booking-status.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+}
+
+/* --- Estilos Ajustados para Modales de Detalles --- */
+.modal-details-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    margin-top: 1rem;
+}
+
+.modal-details-image-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.modal-details-main-img {
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+    background-color: #000;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.modal-details-main-img:hover {
+    transform: scale(1.02);
+}
+
+.modal-details-thumbs {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 5px 2px;
+}
+
+.modal-details-thumbs img {
+    width: 70px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.modal-details-thumbs img.active,
+.modal-details-thumbs img:hover {
+    opacity: 1;
+    border-color: var(--primary-color);
+}
+
+.modal-details-content-side {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-details-cta-wrapper {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-details-cta-wrapper .btn {
+    min-width: 180px;
+}
+
+@media (max-width: 992px) {
+    .modal-details-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .modal-details-content-side {
+        order: 1;
+    }
+
+    .modal-details-image-side {
+        order: 2;
+    }
+    
+    .modal-details-main-img {
+        height: 300px;
+    }
+    
+    .modal-details-cta-wrapper {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .modal-details-cta-wrapper .btn {
+        width: 100%;
+    }
+}
