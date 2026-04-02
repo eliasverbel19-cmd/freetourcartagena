@@ -1,0 +1,5 @@
+Contact: mailto:everbel@freetourcartagena.com
+Expires: 2027-04-01T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://freetourcartagena.com/.well-known/security.txt
+Policy: https://freetourcartagena.com/politica-privacidad.html
