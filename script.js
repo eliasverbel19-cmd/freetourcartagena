@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             slides[currentSlide].classList.add('active');
             dots[currentSlide].classList.add('active');
+            
+            // Move the slider horizontally
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
         function goToSlide(n) {
@@ -107,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return src;
         }))];
 
-        // Determinar idioma para el CTA
-        const isEnglish = window.location.pathname.includes('en');
+        // Determinar idioma para el CTA (ahora el inglés es el default e index.html)
+        const isEnglish = !window.location.pathname.includes('-es');
         const ctaText = isEnglish ? 'BOOK NOW' : 'RESERVAR AHORA';
 
         // Construir estructura del Modal

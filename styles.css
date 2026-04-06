@@ -486,43 +486,125 @@ img {
 /* =========================================================================
    Testimonials Slider
    ========================================================================= */
+.testimonial-row {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  justify-content: space-between;
+}
+
+.testimonial-info {
+  flex: 0 0 35%;
+  text-align: left;
+}
+
+.testimonial-info h2 {
+  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+  color: var(--dark-color);
+  position: relative;
+  display: inline-block;
+}
+
+.testimonial-info h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: var(--secondary-color);
+  border-radius: 2px;
+}
+
+.testimonial-info p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.testimonial-slider-column {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  padding: 0 60px; /* Separar más las flechas */
+}
+
 .testimonial-slider-container {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 100%;
   position: relative;
   overflow: hidden;
-  padding-bottom: 3rem;
+  padding-bottom: 3.5rem;
+  border-radius: var(--border-radius-lg);
 }
 
 .testimonial-slider {
   display: flex;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  align-items: stretch; /* Asegura que todos los slides tengan el mismo alto */
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 1);
 }
 
 .testimonial-slide {
   min-width: 100%;
-  padding: 2rem;
+  padding: 2rem 3rem;
   background-color: var(--white);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column; /* Permite usar margin-top: auto para el autor */
+}
+
+@media (max-width: 991px) {
+  .testimonial-row {
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+  }
+  
+  .testimonial-info {
+    flex: 0 0 100%;
+    text-align: center;
+  }
+  
+  .testimonial-info h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .testimonial-slider-column {
+    width: 100%;
+    padding: 0 30px; /* Reducir un poco el espacio en móviles */
+  }
+
+  .quote {
+    max-height: 150px; /* Limitar altura en móviles */
+    overflow-y: auto;  /* Scroll interno si el texto es muy largo */
+    padding-right: 0.5rem; /* Espacio para la barra de scroll */
+  }
 }
 
 .stars {
   color: var(--secondary-color);
   font-size: 1.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center; /* Mantener estrellas al centro como pidió */
+  display: block;
 }
 
 .quote {
-  font-size: 1.2rem;
+  font-size: 0.95rem;
   font-style: italic;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   color: var(--text-main);
+  text-align: justify; /* Volver a texto justificado */
+  line-height: 1.7;
 }
 
 .author {
   color: var(--primary-color);
   font-weight: 600;
+  text-align: right; /* Alineado a la derecha queda mejor con el texto justificado */
+  display: block;
+  margin-top: auto; /* Empuja el nombre al fondo del slide */
 }
 
 .slider-controls {
@@ -534,6 +616,7 @@ img {
   justify-content: space-between;
   transform: translateY(-50%);
   pointer-events: none;
+  z-index: 10;
 }
 
 .slider-btn {
@@ -1679,7 +1762,7 @@ img {
     }
 
     .modal-details-content-side {
-        order: 1;
+        width: 100%;
     }
 
     .modal-details-image-side {
