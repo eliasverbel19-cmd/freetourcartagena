@@ -2,39 +2,59 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://freetourcartagena.com/</loc>
-    <lastmod>2026-04-03</lastmod>
+    <loc>https://ftc-wheat.vercel.app/</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://freetourcartagena.com/index-es.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://freetourcartagena.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ftc-wheat.vercel.app/index-es.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ftc-wheat.vercel.app/index.html"/>
   </url>
   <url>
-    <loc>https://freetourcartagena.com/index.html</loc>
-    <lastmod>2026-04-03</lastmod>
+    <loc>https://ftc-wheat.vercel.app/index.html</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://freetourcartagena.com/index-es.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://freetourcartagena.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ftc-wheat.vercel.app/index-es.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ftc-wheat.vercel.app/index.html"/>
   </url>
   <url>
-    <loc>https://freetourcartagena.com/index-es.html</loc>
-    <lastmod>2026-04-03</lastmod>
+    <loc>https://ftc-wheat.vercel.app/index-es.html</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://freetourcartagena.com/index-es.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://freetourcartagena.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ftc-wheat.vercel.app/index-es.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ftc-wheat.vercel.app/index.html"/>
   </url>
   <url>
-    <loc>https://freetourcartagena.com/politica-privacidad.html</loc>
-    <lastmod>2026-04-01</lastmod>
+    <loc>https://ftc-wheat.vercel.app/privacy-policy.html</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ftc-wheat.vercel.app/privacy-policy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ftc-wheat.vercel.app/politica-privacidad.html"/>
   </url>
   <url>
-    <loc>https://freetourcartagena.com/privacy-policy.html</loc>
-    <lastmod>2026-04-01</lastmod>
+    <loc>https://ftc-wheat.vercel.app/politica-privacidad.html</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ftc-wheat.vercel.app/politica-privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ftc-wheat.vercel.app/privacy-policy.html"/>
+  </url>
+  <url>
+    <loc>https://ftc-wheat.vercel.app/terms-conditions.html</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ftc-wheat.vercel.app/terms-conditions.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ftc-wheat.vercel.app/terminos-condiciones.html"/>
+  </url>
+  <url>
+    <loc>https://ftc-wheat.vercel.app/terminos-condiciones.html</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ftc-wheat.vercel.app/terminos-condiciones.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ftc-wheat.vercel.app/terms-conditions.html"/>
   </url>
 </urlset>

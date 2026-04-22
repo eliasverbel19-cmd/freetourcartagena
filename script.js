@@ -104,13 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
             allImages = [...allImages, ...additionalImgs];
         }
         
-        // Limpiamos URLs (por si acaso vienen con rutas relativas o absolutas mezcladas)
+        // Limpiamos URLs
         const uniqueImages = [...new Set(allImages.map(src => {
-            // Si es relativa la convertimos en algo comparable (o simplemente confiamos en el string si es consistente)
             return src;
         }))];
 
-        // Determinar idioma para el CTA (ahora el inglés es el default e index.html)
+        // Determinar idioma para el CTA
         const isEnglish = !window.location.pathname.includes('-es');
         const ctaText = isEnglish ? 'BOOK NOW' : 'RESERVAR AHORA';
 
@@ -221,4 +220,35 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+    // --- Promotional Modal Logic ---
+    const promoModal = document.getElementById('promo-modal');
+    
+    window.closePromoModal = () => {
+        if (promoModal) {
+            promoModal.classList.remove('active');
+            setTimeout(() => {
+                promoModal.style.display = 'none';
+            }, 500); // Wait for transition
+        }
+        document.body.style.overflow = '';
+    };
+
+    if (promoModal) {
+        // Show after 2 seconds on load, but only once per session
+        if (!sessionStorage.getItem('promoShown')) {
+            setTimeout(() => {
+                promoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                sessionStorage.setItem('promoShown', 'true');
+            }, 2000);
+        } else {
+            promoModal.style.display = 'none';
+        }
+
+        // Close on overlay click
+        promoModal.addEventListener('click', (e) => {
+            if (e.target === promoModal) closePromoModal();
+        });
+    }
 });
